@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>EXE ROBIN 2.0</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to top, #4c6ef5, #7abaff);
+            margin: 0;
+            padding: 0;
+            color: white;
+        }
+        header {
+            text-align: center;
+            padding: 50px 0;
+        }
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        header p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+        .social-buttons a {
+            display: inline-block;
+            background-color: #008CBA;
+            color: white;
+            padding: 15px 30px;
+            margin: 10px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            transition: background-color 0.3s;
+        }
+        .social-buttons a:hover {
+            background-color: #005f75;
+        }
+        .button-container {
+            text-align: center;
+        }
+        .join-button {
+            background-color: #f44336;
+            padding: 20px 50px;
+            font-size: 1.5em;
+            border-radius: 10px;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+        .join-button:hover {
+            background-color: #d32f2f;
+        }
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+        .counter {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+        .scroll-animation {
+            animation: scrollEffect 2s ease-in-out infinite;
+        }
+        @keyframes scrollEffect {
+            0% {transform: translateY(0);}
+            50% {transform: translateY(10px);}
+            100% {transform: translateY(0);}
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>EXE ROBIN 2.0</h1>
+        <p>Hey guys! I'm Robin Hasan — a passionate gamer and content creator. Don't forget to subscribe!</p>
+    </header>
+    <div class="button-container">
+        <a href="https://m.me/cm/AbZO5ZoX7OPjiDOv/?send_source=cm%3Acopy_invite_link" class="join-button">Join Messenger Community</a>
+    </div>
+    <div class="social-buttons">
+        <a href="https://www.tiktok.com/@exerobin2.0" target="_blank">TikTok</a>
+        <a href="https://youtube.com/@exerobin2.0?si=K8c5GsOUfgorE49W" target="_blank">YouTube</a>
+        <a href="https://wa.me/01851544486" target="_blank">WhatsApp</a>
+        <a href="https://discord.gg/Wc66eJyW" target="_blank">Discord</a>
+    </div>
+    <footer>
+        <div class="counter">
+            <p class="scroll-animation">Live Subscriber Count: <span id="subscriberCount">Loading...</span></p>
+        </div>
+        <div class="counter">
+            <p class="scroll-animation">Latest Video: <span id="latestVideo">Loading...</span></p>
+        </div>
+    </footer>
+
+    <script>
+        // Fetching the live subscriber count from YouTube API
+        const apiKey = 'AIzaSyBzQwpVRp36UFh00vYnIA08JcX8L84Qmn0';
+        const channelId = 'UC2I0jNhx8J4eQ0X7p9MiEyA'; // Your YouTube channel ID
+
+        // Function to get the YouTube data
+        async function getYouTubeData() {
+            try {
+                const response = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${channelId}&key=${apiKey}`);
+                const data = await response.json();
+                const subscriberCount = data.items[0].statistics.subscriberCount;
+                document.getElementById('subscriberCount').textContent = subscriberCount;
+
+                // Get latest video
+                const videoResponse = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&order=date&maxResults=1&key=${apiKey}`);
+                const videoData = await videoResponse.json();
+                const latestVideoUrl = `https://www.youtube.com/watch?v=${videoData.items[0].id.videoId}`;
+                document.getElementById('latestVideo').innerHTML = `<a href="${latestVideoUrl}" target="_blank">Watch Now</a>`;
+            } catch (error) {
+                console.error('Error fetching YouTube data:', error);
+            }
+        }
+
+        getYouTubeData();
+    </script>
+</body>
+</html>
